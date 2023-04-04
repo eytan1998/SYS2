@@ -28,13 +28,11 @@ int main(int argc, char *argv[]) {
         }
     }
     if (argc == 5) {
-        if (strcmp(argv[3], "-v") == 0 && strcmp(argv[4], "-f") == 0) {
+        if ((strcmp(argv[3], "-v") == 0 && strcmp(argv[4], "-f") == 0) ||
+            (strcmp(argv[4], "-v") == 0 && strcmp(argv[3], "-f") == 0)) {
             isVerbose = TRUE;
             isForce = TRUE;
-        } else if (strcmp(argv[4], "-v") == 0 && strcmp(argv[3], "-f") == 0) {
-            isVerbose = TRUE;
-            isForce = TRUE;
-        } else {
+        } else {//both not true
             printf("usage:  copy <file1> <file2> -v\n");
             return 1;
         }
@@ -62,7 +60,7 @@ int main(int argc, char *argv[]) {
     }
 
     //open dst
-    FILE * fdst = fopen(argv[2], "w");
+    FILE *fdst = fopen(argv[2], "w");
     if (fdst == NULL) {//cant open
         if (isVerbose)
             printf("general failure\n");
@@ -75,7 +73,7 @@ int main(int argc, char *argv[]) {
     //transfer
     int c;
     while ((c = getc(fsrc)) != EOF) {
-        if (c == 0){// equals null
+        if (c == 0) {// equals null
             isError = TRUE;
             break;
         }
