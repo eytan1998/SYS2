@@ -38,11 +38,11 @@ cmp: cmp.o
 cmp.o: cmp.c
 	gcc -c cmp.c
 
-basic: basic_shell.o
-	gcc -o basic basic_shell.o
+basic: stshell.o
+	gcc -o basic stshell.o
 
-basic_shell.o: basic_shell.c
-	gcc -o basic_shell.o -c basic_shell.c
+stshell.o: stshell.c
+	gcc -o stshell.o -c stshell.c
 
 
 clean:

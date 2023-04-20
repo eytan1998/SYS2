@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     }
 
     //see if dest exist
-    FILE *fp = fopen(argv[2], "r");
+    FILE *fp = fopen(argv[2], "rb");
     if (fp != NULL) {//exist
         if (!isForce) { // do not override
             if (isVerbose)
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 
 
     //open src
-    FILE *fsrc = fopen(argv[1], "r");
+    FILE *fsrc = fopen(argv[1], "rb");
     if (fsrc == NULL) {//not exist
         if (isVerbose)
             printf("general failure\n");
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     }
 
     //open dst
-    FILE *fdst = fopen(argv[2], "w");
+    FILE *fdst = fopen(argv[2], "wb");
     if (fdst == NULL) {//cant open
         if (isVerbose)
             printf("general failure\n");
@@ -72,12 +72,12 @@ int main(int argc, char *argv[]) {
     int isError = FALSE;
     //transfer
     int c;
-    while ((c = getc(fsrc)) != EOF) {
-        if (c == 0) {// equals null
-            isError = TRUE;
-            break;
-        }
-        putc(c, fdst);
+    while (fread(&c, 1, 1, fsrc) != 0) {
+        fwrite(&c, 1, 1, fdst);
+    }
+
+    if (ferror(fsrc)) {// if error
+        isError = TRUE;
     }
 
     fclose(fsrc);
