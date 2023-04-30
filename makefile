@@ -1,14 +1,14 @@
 .PHONY: all clean
 
-all: basic cmp copy encode decode libcodecA.so libcodecB.so
+default: stshell cmp copy encode decode libcodecA.so libcodecB.so
 
-encode: encode.o
+encode: encode.o libcodecA.so libcodecB.so
 	gcc -o encode encode.o
 
 encode.o: encode.c
 	gcc -c encode.c
 
-decode: decode.o
+decode: decode.o libcodecA.so libcodecB.so
 	gcc -o decode decode.o
 
 decode.o: decode.c
@@ -38,12 +38,11 @@ cmp: cmp.o
 cmp.o: cmp.c
 	gcc -c cmp.c
 
-basic: stshell.o
-	gcc -o basic stshell.o
+stshell: stshell.o
+	gcc -o stshell stshell.o
 
 stshell.o: stshell.c
 	gcc -o stshell.o -c stshell.c
 
-
 clean:
-	rm -f *.o *.so basic cmp copy decode encode
+	rm -f *.o *.so stshell cmp copy decode encode

@@ -21,16 +21,14 @@ int main() {
         //ignore crl+C
         signal(SIGINT, SIG_IGN);
 
-        //TODO ignore crl+C
         printf("<StShell>: ");
         fgets(command, 1024, stdin);
-        if(strlen(command)<=1) continue;
+        if (strlen(command) <= 1) continue;
         command[strlen(command) - 1] = '\0'; // replace \n with \0
 
 
         //stop if it gets exit
         if (!strcmp(command, "exit")) {
-
             return 0;
         }
 
@@ -54,8 +52,6 @@ int main() {
             return 0;
 
         if (!fork()) {
-            //TODO NOT ignore crl+C
-
             if (!fork()) {
                 if (!fork()) {
 
@@ -96,7 +92,6 @@ int main() {
                     close(fd1[WRITE]);
                     close(fd2[READ]);
                     close(fd2[WRITE]);
-                    wait(NULL);
                     exit(0);
 
                 }
@@ -143,7 +138,6 @@ int main() {
                 close(fd1[WRITE]);
                 close(fd2[READ]);
                 close(fd2[WRITE]);
-
                 wait(NULL);
                 exit(0);
 
@@ -180,7 +174,6 @@ int main() {
             close(fd1[WRITE]);
             close(fd2[READ]);
             close(fd2[WRITE]);
-            wait(NULL);
             exit(0);
 
         }
